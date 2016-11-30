@@ -1,5 +1,6 @@
 package pg.eti.inz.engineer.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
@@ -32,20 +33,29 @@ public class RestUser {
     @OneToMany(mappedBy = "restUser")
     @Cascade(CascadeType.ALL)
     @Transient
+    @JsonIgnore
     private List<Route> routes;
 
     public RestUser() {
     }
 
+    public RestUser(Long id) {
+        this(id, null, null, null);
+    }
+
     public RestUser(Long id, String username) {
-        this.id = id;
-        this.username = username;
-        this.password = "";
+        this(id, username, null, null);
     }
 
     public RestUser(String username, String password) {
+        this(null, username, password, null);
+    }
+
+    public RestUser(Long id, String username, String password, List<Route> routes) {
+        this.id = id;
         this.username = username;
         this.password = password;
+        this.routes = routes;
     }
 
     public Long getId() {

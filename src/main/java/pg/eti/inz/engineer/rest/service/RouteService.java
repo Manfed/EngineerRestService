@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pg.eti.inz.engineer.model.Route;
+import pg.eti.inz.engineer.model.dao.LocationDao;
 import pg.eti.inz.engineer.model.dao.RouteDao;
 import pg.eti.inz.engineer.model.dao.UserDao;
 
@@ -18,10 +19,13 @@ import java.util.List;
 public class RouteService {
 
     @Autowired
-    RouteDao routeDao;
+    private RouteDao routeDao;
 
     @Autowired
-    UserDao userDao;
+    private UserDao userDao;
+
+    @Autowired
+    private LocationDao locationDao;
 
     @Transactional
     public List<Route> getAllRoutes() {
@@ -36,6 +40,10 @@ public class RouteService {
     @Transactional
     public void addRoute(Route route) {
         routeDao.addRoute(route, getCurrentUserId());
+        route.getLocations().forEach(location -> {
+            location.setRoute(new Route(route.getId()));
+            locationDao.updateLocation(location);
+        });
     }
 
     @Transactional

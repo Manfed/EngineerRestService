@@ -2,7 +2,6 @@ package pg.eti.inz.engineer.rest.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,17 +17,17 @@ import pg.eti.inz.engineer.rest.service.UserService;
 public class UserController {
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
-    @RequestMapping(value = "/user/{id}", method = RequestMethod.GET, headers = "Accept=application/json")
-    public RestUser getUser(@PathVariable int id) {
-        return userService.findById(id);
+    @RequestMapping(value = "/user", method = RequestMethod.GET, headers = "Accept=application/json")
+    public RestUser getUser() {
+        return userService.findById();
     }
 
     @RequestMapping(value = "/user", method = RequestMethod.POST, headers = "Accept=application/json")
     @ResponseStatus(HttpStatus.CREATED)
-    public RestUser createUser (@RequestBody RestUser newUser) {
-        return userService.saveUser(newUser);
+    public void createUser (@RequestBody RestUser newUser) {
+        userService.saveUser(newUser);
     }
 
     @RequestMapping(value = "/user", method = RequestMethod.PUT, headers = "Accept=application/json")
@@ -36,8 +35,8 @@ public class UserController {
         userService.updatePassword(updatedUser);
     }
 
-    @RequestMapping(value = "/user/{id}", method = RequestMethod.DELETE, headers = "Accept=application/json")
-    public void deleteUser(@PathVariable int id) {
-        userService.deleteUser(id);
+    @RequestMapping(value = "/user", method = RequestMethod.DELETE, headers = "Accept=application/json")
+    public void deleteUser() {
+        userService.deleteUser();
     }
 }

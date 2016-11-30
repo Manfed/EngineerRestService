@@ -24,7 +24,7 @@ import java.util.regex.Pattern;
 public class UserDao {
 
     @Autowired
-    SessionFactory sessionFactory;
+    private SessionFactory sessionFactory;
 
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
@@ -32,7 +32,6 @@ public class UserDao {
 
     public RestUser getUserById(int id) {
         Session session = sessionFactory.getCurrentSession();
-        //RestUser user = session.find(RestUser.class, new Long(id));
 
         CriteriaQuery<RestUser> criteriaQuery = session.getCriteriaBuilder().createQuery(RestUser.class);
         Root<RestUser> userRoot = criteriaQuery.from(RestUser.class);
@@ -47,7 +46,7 @@ public class UserDao {
 
     public RestUser getFullUserByName(String username) {
         Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("FROM RestUser WHERE user.username = :username")
+        Query query = session.createQuery("FROM RestUser WHERE username = :username")
                 .setParameter("username", username);
         RestUser user = null;
 
@@ -73,7 +72,7 @@ public class UserDao {
         return user;
     }
 
-    public RestUser addUser(RestUser user) {
+    public void addUser(RestUser user) {
         Session session = sessionFactory.getCurrentSession();
         validateUser(user.getUsername(), user.getPassword());
 
@@ -81,9 +80,6 @@ public class UserDao {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 
         session.persist(user);
-        session.getTransaction().commit();
-
-        return getUserByName(user.getUsername());
     }
 
     public void updatePassword(RestUser user) {

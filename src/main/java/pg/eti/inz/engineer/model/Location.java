@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -33,7 +34,7 @@ public class Location {
     private Double speed;
 
     @JsonIgnore
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "route_id")
     private Route route;
 
@@ -70,5 +71,13 @@ public class Location {
 
     public Route getRoute() {
         return route;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setRoute(Route route) {
+        this.route = route;
     }
 }

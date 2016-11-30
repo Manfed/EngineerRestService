@@ -1,8 +1,8 @@
 package pg.eti.inz.engineer.model;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -24,18 +24,27 @@ public class Route {
     @GeneratedValue
     private Long id;
 
-    @OneToMany(mappedBy = "route", fetch = FetchType.EAGER)
-    @Cascade(CascadeType.ALL)
+    @OneToMany(mappedBy = "route", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Location> locations;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restUserId", nullable = false)
+    @JsonIgnore
     private RestUser restUser;
 
     public Route() {
     }
 
+    public Route(Long id) {
+        this(id, null, null);
+    }
+
     public Route(List<Location> locations, RestUser restUser) {
+        this(null, locations, restUser);
+    }
+
+    public Route(Long id, List<Location> locations, RestUser restUser) {
+        this.id = id;
         this.locations = locations;
         this.restUser = restUser;
     }
@@ -50,5 +59,13 @@ public class Route {
 
     public RestUser getRestUser() {
         return restUser;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setRestUser(RestUser restUser) {
+        this.restUser = restUser;
     }
 }

@@ -20,7 +20,7 @@ import java.util.List;
 public class RouteController {
 
     @Autowired
-    RouteService routeService;
+    private RouteService routeService;
 
     @RequestMapping(value = "/routes", method = RequestMethod.GET, headers = "Accept=application/json")
     public List<Route> getRoutes() {
