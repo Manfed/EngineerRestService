@@ -35,8 +35,8 @@ public class RouteController {
 
     @RequestMapping(value = "/routes", method = RequestMethod.POST, headers = "Accept=application/json")
     @ResponseStatus(HttpStatus.CREATED)
-    public void addRoute(@RequestBody Route route) {
-        routeService.addRoute(route);
+    public Integer addRoute(@RequestBody Route route) {
+        return routeService.addRoute(route);
     }
 
     @RequestMapping(value = "/routes/{id}", method = RequestMethod.DELETE, headers = "Accept=application/json")

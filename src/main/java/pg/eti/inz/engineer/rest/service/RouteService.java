@@ -38,12 +38,13 @@ public class RouteService {
     }
 
     @Transactional
-    public void addRoute(Route route) {
+    public Integer addRoute(Route route) {
         routeDao.addRoute(route, getCurrentUserId());
         route.getLocations().forEach(location -> {
             location.setRoute(new Route(route.getId()));
             locationDao.updateLocation(location);
         });
+        return route.getId().intValue();
     }
 
     @Transactional
