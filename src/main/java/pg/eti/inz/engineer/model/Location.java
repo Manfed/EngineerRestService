@@ -83,4 +83,8 @@ public class Location {
     public void setRoute(Route route) {
         this.route = route;
     }
+
+    public Double getHeight() {
+        return height;
+    }
 }
