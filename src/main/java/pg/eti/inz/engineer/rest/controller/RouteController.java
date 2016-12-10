@@ -39,7 +39,7 @@ public class RouteController {
         routeService.addRoute(route);
     }
 
-    @RequestMapping(value = "/routes", method = RequestMethod.DELETE, headers = "Accept=application/json")
+    @RequestMapping(value = "/routes/{id}", method = RequestMethod.DELETE, headers = "Accept=application/json")
     public void deleteRoute(@PathVariable int id) {
         routeService.deleteRoute(id);
     }

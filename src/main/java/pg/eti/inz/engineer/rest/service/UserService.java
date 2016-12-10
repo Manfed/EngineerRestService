@@ -36,6 +36,9 @@ public class UserService {
 
     @Transactional
     public void updatePassword(RestUser user) {
+        User callingUser = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        user.setUsername(callingUser.getUsername());
+
         userDao.updatePassword(user);
     }
 

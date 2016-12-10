@@ -33,6 +33,8 @@ public class Location {
 
     private Double speed;
 
+    private Double height;
+
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "route_id")
@@ -41,12 +43,13 @@ public class Location {
     public Location() {
     }
 
-    public Location(Double latitude, Double longitude, Date timestamp, Double speed, Route route) {
+    public Location(Double latitude, Double longitude, Date timestamp, Double speed, Route route, Double height) {
         this.latitude = latitude;
         this.longitude = longitude;
         this.timestamp = timestamp;
         this.speed = speed;
         this.route = route;
+        this.height = height;
     }
 
     public Long getId() {
