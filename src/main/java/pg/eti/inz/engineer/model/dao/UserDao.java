@@ -99,7 +99,10 @@ public class UserDao {
 
         if (updatedUser != null) {
             validatePassword(user.getPassword());
-            updatedUser.setPassword(user.getPassword());
+
+            BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+            updatedUser.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+
             session.update(updatedUser);
         } else {
             throw new UserNotFoundException(user.getUsername());
